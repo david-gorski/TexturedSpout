@@ -2,5 +2,5 @@ name: TextureSpout
 version: 0.2
 author: Fugos
 
-description: Setup Mulitworld Texture-Packs! with Spout!!
+description: Setup Mulitworld Texture-Packs! with Spout!
 main: me.fugos.texture.TexturedSpout

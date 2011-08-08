@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -17,6 +18,7 @@ import org.getspout.spoutapi.event.spout.SpoutCraftEnableEvent;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class TexturedSpout extends JavaPlugin {
+	private final pListener playerListener = new pListener(this);
 
 public boolean Dtod;
 
@@ -29,54 +31,23 @@ public boolean Dtod;
 	{
 		console.info("[" + plName + "] " + plName + " has been disabled.");
 		console.info("[" + plName + "] " + plName + " was coded by Fugos");
+		console.info("[" + plName + "] " + plName + " is Funded by your generous Donations!");
 	}
 
 	public void onEnable() 
 	{
+		PluginManager pm = this.getServer().getPluginManager();
+		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Normal, this);
+		
 		config = this.getConfiguration();
-		PluginManager pm = getServer().getPluginManager();
 		console.info("[" + plName + "] " + plName + " has been enabled.");
 		console.info("[" + plName + "] Coded by Fugos");
-		pm.registerEvent(Type.CUSTOM_EVENT, new sListener(), Priority.Low, this);
 		ConfigurationCheck();
 		config.load();
-		
-		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvent(Type.CUSTOM_EVENT, new BInputListener(this),
-				Priority.Normal, this);
-		pm.registerEvent(Type.CUSTOM_EVENT, new BInvListener(this),
-				Priority.Normal, this);
-		pm.registerEvent(Type.PLAYER_JOIN, new sListener(this),
-				Priority.Normal, this);
-		pm.registerEvent(Type.PLAYER_QUIT, new BPlayerListener(this),
-				Priority.Normal, this);
-		pm.registerEvent(Type.ENTITY_DEATH, new BEntListener(this),
-		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, sListener, Priority.Lowest, this);
-		getServer().getPluginManager().registerEvent(Type.PLAYER_JOIN, TexturedSpout, Priority.Lowest, this);
-		
-	
-	public void onPlayerJoin(PlayerJoinEvent event,  World world, SpoutPlayer splayer,SpoutCraftEnableEvent sevent) {
-		if(1 == 1) {
-        	String WorldUrl = config.getString(
-    				"texturepack." + world.getName());
-    				String DefaultUrl = config.getString("texturepack.default");
-    		if (WorldUrl != null) {
-    		sevent.getPlayer().setTexturePack(TexturedSpout.config.getProperty("config.texturepack." +  world.getName()).toString());
-    	}	if (WorldUrl == null){
-    		config.setProperty("config.texturepack." + world.getName(), "http://dl.dropbox.com/u/32889036/Exodus%20Minecraft%20Pack.zip");
-    	     config.save();
-    	     	if (Dtod == false)
-    			splayer.sendMessage( ChatColor.RED + "A Texture Pack is not set for this world!" );
-    	     	if (Dtod == true)
-    			splayer.setTexturePack(DefaultUrl); }}
-		
-		
 	}
-	
-	
-	
-	
-	
 	public void ConfigurationCheck() 
 	{
 	
@@ -86,7 +57,7 @@ public boolean Dtod;
 		     config.save();
 		}
 		
-		if(config.getProperty("config.Default to Defualt Texture Pack:") == null ) {
+		if(config.getProperty("config.Default to Defualt Texture Pack") == null ) {
 		
 			config.setProperty("config.Default to Defualt Texture Pack", true);
 			config.save();
@@ -94,12 +65,11 @@ public boolean Dtod;
 			
 		if(config.getProperty("config.skin") == null)
 		{
-			config.setProperty("config.skin", "http://www.minecraftskins.com/save/146841");
+			config.setProperty("config.skin", "http://www.minecraftskins.com/save/136841");
 			config.save();
 			
 		}
 		Dtod = config.getBoolean("Default to Defualt Texture Pack", true);
-		
 		
 		
 		

@@ -4,21 +4,26 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.util.config.Configuration;
 import org.getspout.spoutapi.event.spout.SpoutCraftEnableEvent;
 import org.getspout.spoutapi.player.SpoutPlayer;
+import org.bukkit.entity.Player;
 
 import me.fugos.texture.TexturedSpout;
 
 
 public class pListener extends PlayerListener{
-		TexturedSpout plugin;
 		
-		public players(TexturedSpout plugin){
-			this.plugin = plugin;
-		}
+		public static TexturedSpout plugin; public pListener(TexturedSpout instance) {
+	        plugin = instance;
+	}
+			
 		
-		public void onPlayerJoin(PlayerJoinEvent event,  World world, SpoutPlayer splayer,SpoutCraftEnableEvent sevent) {
-			if(1 == 1) {
+public boolean Dtod;
+		
+		public void onPlayerJoin(PlayerJoinEvent event,  World world, SpoutPlayer splayer,SpoutCraftEnableEvent sevent, Configuration config, Player player) {
+			if(event.getPlayer() != null){
+				config.load();
 	        	String WorldUrl = config.getString(
 	    				"texturepack." + world.getName());
 	    				String DefaultUrl = config.getString("texturepack.default");
