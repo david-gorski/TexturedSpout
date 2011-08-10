@@ -2,6 +2,10 @@ package me.fugos.texture;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -16,10 +20,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 import org.getspout.spoutapi.event.spout.SpoutCraftEnableEvent;
 import org.getspout.spoutapi.player.SpoutPlayer;
+import org.bukkit.event.CustomEventListener;
 
 public class TexturedSpout extends JavaPlugin {
-	private final pListener playerListener = new pListener(this);
+	protected pListener playerListener;
 
+	protected final static Logger log = Logger
+			.getLogger("Minecraft.TexturedSpout");
+	protected static TexturedSpout instance;
+	
 public boolean Dtod;
 
 	public static Configuration config;
@@ -41,51 +50,89 @@ public boolean Dtod;
 		pm.registerEvent(Event.Type.PLAYER_MOVE, playerListener, Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.CUSTOM_EVENT, new CustomEventListener() {
+			@Override
+			public void onCustomEvent(Event _event) {
+			if (_event instanceof SpoutCraftEnableEvent) {
+				SpoutCraftEnableEvent event = (SpoutCraftEnableEvent) _event;
+			playerListener.doWorldActions(event.getPlayer()
+			.getWorld(), event.getPlayer(), getConfiguration());
+			}
+			}
+			}, Event.Priority.Normal, this);
+
+
+		
+			playerListener = new pListener(this);
+		
+		
 		
 		config = this.getConfiguration();
 		console.info("[" + plName + "] " + plName + " has been enabled.");
 		console.info("[" + plName + "] Coded by Fugos");
-		ConfigurationCheck();
 		config.load();
-	}
-	public void ConfigurationCheck() 
-	{
+
 	
-		if(config.getProperty("config.texturepack") == null)
-		{
-		     config.setProperty("config.texturepack", "http://dl.dropbox.com/u/32889036/Exodus%20Minecraft%20Pack.zip");
-		     config.save();
+	
+	
+	
+	
+	
+	
+	
+
+	if (getConfiguration().getKeys().isEmpty()) {
+		Configuration config = getConfiguration();
+		config.setProperty("texturepack.default", "");
+		config.setProperty("texturepack.world_voxel",
+		"http://dl.dropbox.com/u/32644765/texturepacks/vbtp0-pangea.zip");
+
+		List<Map<String, Object>> worldRegions = new ArrayList<Map<String, Object>>();
+		worldRegions.add(new HashMap<String, Object>());
+		worldRegions.add(new HashMap<String, Object>());
+
+		Map<String, Object> tmp;
+
+		worldRegions.get(0).put("name", "Example Region");
+		worldRegions.get(0).put("description", "Is that... sand?");
+		worldRegions.get(0).put("icon", "SANDSTONE");
+		tmp = new HashMap<String, Object>();
+		worldRegions.get(0).put("min", tmp);
+		tmp.put("x", -10);
+		tmp.put("y", 0);
+		tmp.put("z", -10);
+		tmp = new HashMap<String, Object>();
+		worldRegions.get(0).put("max", tmp);
+		tmp.put("x", 10);
+		tmp.put("y", 127);
+		tmp.put("z", 10);
+
+		worldRegions.get(1).put("name", "Other Region");
+		worldRegions.get(1).put("description", "That is also sand.");
+		worldRegions.get(1).put("icon", "SAND");
+		worldRegions.get(1).put("music", "MINECRAFT_THEME");
+		tmp = new HashMap<String, Object>();
+		worldRegions.get(1).put("min", tmp);
+		tmp.put("x", 50);
+		tmp.put("y", 0);
+		tmp.put("z", -5);
+		tmp = new HashMap<String, Object>();
+		worldRegions.get(1).put("max", tmp);
+		tmp.put("x", 60);
+		tmp.put("y", 127);
+		tmp.put("z", 10);
+
+		config.setProperty("regions.world", worldRegions);
+
+		config.setProperty("player.Fugos.cape",
+		"http://llamaslayers.net/cupcape.png");
+		config.setProperty("player.Fugos.title",
+		"Fugos\nThe Great");
+
+		config.save();
 		}
-		
-		if(config.getProperty("config.Default to Defualt Texture Pack") == null ) {
-		
-			config.setProperty("config.Default to Defualt Texture Pack", true);
-			config.save();
-		}
-			
-		if(config.getProperty("config.skin") == null)
-		{
-			config.setProperty("config.skin", "http://www.minecraftskins.com/save/136841");
-			config.save();
-			
-		}
-		Dtod = config.getBoolean("Default to Defualt Texture Pack", true);
-		
-		
-		
-		
-		  String file = this.getDataFolder().toString()+"/config.yml";
-		  File yml = new File(file);
-		  if (!yml.exists()) {
-			  new File(this.getDataFolder().toString()).mkdir();
-			  try {
-				  yml.createNewFile();
-			  } catch (IOException e) {
-				  e.printStackTrace();
-			  	}
-		  	}
-		}
-	}
+
+	}}
 	
 	
 	
