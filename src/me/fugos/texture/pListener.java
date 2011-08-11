@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.config.Configuration;
+import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.event.spout.SpoutCraftEnableEvent;
 import org.getspout.spoutapi.packet.PacketTexturePack;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -28,8 +29,8 @@ public boolean Dtod;
 		
 		public void onPlayerJoin(PlayerJoinEvent event,  World world, SpoutPlayer splayer,SpoutCraftEnableEvent sevent, Configuration config, Player player) {
 			doWorldBasedActions(event.getPlayer().getWorld(),
-					SpoutPlayer.getSpoutPlayer(event.getPlayer()),
-					TexturedSpout.instance.getConfiguration());
+					SpoutPlayer splayer = SpoutManager.getPlayer(event.getPlayer());
+					TexturedSpout.instance.getConfiguration();
 			
 			Bukkit.getServer()
 			.getScheduler()
@@ -38,12 +39,11 @@ public boolean Dtod;
 
 		}
 
-		public void onPlayerTeleport(PlayerTeleportEvent event) {
+		public void onPlayerTeleport(PlayerTeleportEvent event, SpoutPlayer splayer) {
 			if (event.getFrom().getWorld() != event.getTo().getWorld()) {
 			doWorldBasedActions(event.getTo().getWorld(),
-			SpoutPlayer(event.getPlayer()),
-			TexturedSpout.instance.getConfiguration());
-		
+			SpoutPlayer splayer = SpoutManager.getPlayer(event.getPlayer());
+			TexturedSpout.instance.getConfiguration();
 			}
 		}
 		public void onPlayerRespawn(PlayerRespawnEvent event) {
@@ -62,17 +62,33 @@ public boolean Dtod;
 			this.listener = listener;
 			}
 
+			@Override
 			public void run() {
-			Player player = Bukkit.getServer().getPlayer(playerName);
-			if (player != null) {
-			listener.doPlayerBasedActions(
-			SpoutPlayer.getContribPlayer(player),
-			TexturedSpout.instance.getConfiguration());
+				Player player = Bukkit.getServer().getPlayer(playerName);
+				if (player != null) {
+				listener.doPlayerBasedActions(
+				SpoutPlayer splayer = SpoutManager.getPlayer(null);
+				TexturedSpout.instance.getConfiguration();
+				
 			}
 			}
+			public void doWorldActions(World world, SpoutPlayer player,Configuration config) {
+					String texturePackUrl = config.getString(
+					"texturepack" + world.getName(),
+					config.getString("texturepack.default"));
+					if (texturePackUrl != null) {
+					try {
+					player.setTexturePack(texturePackUrl);
+					} catch (IllegalArgumentException ex) {
+					TexturedSpout.log
+					.severe("[TexturedSpout] Error with texture pack for world "
+					+ player.getWorld().getName()
+					+ " : "
+					+ ex.getMessage());
+					}
+			
+					}
+				}
 			}
-		public void doWorldActions(World world, SpoutPlayer player,
-				Configuration configuration) {
-			// TODO Auto-generated method stub
-		}
-}
+
+			}

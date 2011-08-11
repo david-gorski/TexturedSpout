@@ -1,7 +1,6 @@
 package me.fugos.texture;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,28 +71,21 @@ public boolean Dtod;
 		console.info("[" + plName + "] Coded by Fugos");
 		config.load();
 
-	
-	
-	
-	
-	
-	
-	
-	
-
 	if (getConfiguration().getKeys().isEmpty()) {
 		Configuration config = getConfiguration();
-		config.setProperty("texturepack.default", "");
-		config.setProperty("texturepack.world_voxel",
-		"http://dl.dropbox.com/u/32644765/texturepacks/vbtp0-pangea.zip");
+		config.setProperty("texturepack.default", "http://dl.dropbox.com/u/32889036/Exodus%20Minecraft%20Pack.zip");
+		config.setProperty("texturepack.poop",
+		"http://dl.dropbox.com/u/32889036/Exodus%20Minecraft%20Pack.zip");
 
-		List<Map<String, Object>> worldRegions = new ArrayList<Map<String, Object>>();
+/*
+ * For later
+ * 		List<Map<String, Object>> worldRegions = new ArrayList<Map<String, Object>>();
 		worldRegions.add(new HashMap<String, Object>());
 		worldRegions.add(new HashMap<String, Object>());
 
 		Map<String, Object> tmp;
 
-		worldRegions.get(0).put("name", "Example Region");
+		worldRegions.get(0).put("name", "Test");
 		worldRegions.get(0).put("description", "Is that... sand?");
 		worldRegions.get(0).put("icon", "SANDSTONE");
 		tmp = new HashMap<String, Object>();
@@ -122,8 +114,9 @@ public boolean Dtod;
 		tmp.put("y", 127);
 		tmp.put("z", 10);
 
-		config.setProperty("regions.world", worldRegions);
 
+		config.setProperty("regions.world", worldRegions);
+*/
 		config.setProperty("player.Fugos.cape",
 		"http://llamaslayers.net/cupcape.png");
 		config.setProperty("player.Fugos.title",
