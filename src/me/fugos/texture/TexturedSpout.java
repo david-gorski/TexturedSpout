@@ -54,7 +54,7 @@ public boolean Dtod;
 			public void onCustomEvent(Event _event) {
 			if (_event instanceof SpoutCraftEnableEvent) {
 				SpoutCraftEnableEvent event = (SpoutCraftEnableEvent) _event;
-			playerListener.doWorldActions(event.getPlayer()
+			playerListener.doWorldBasedActions(event.getPlayer()
 			.getWorld(), event.getPlayer(), getConfiguration());
 			}
 			}

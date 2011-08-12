@@ -27,10 +27,10 @@ public class pListener extends PlayerListener{
 		
 public boolean Dtod;
 		
-		public void onPlayerJoin(PlayerJoinEvent event,  World world, SpoutPlayer splayer,SpoutCraftEnableEvent sevent, Configuration config, Player player) {
+		public void onPlayerJoin(PlayerJoinEvent event) {
 			doWorldBasedActions(event.getPlayer().getWorld(),
-					SpoutPlayer splayer = SpoutManager.getPlayer(event.getPlayer());
-					TexturedSpout.instance.getConfiguration();
+					SpoutManager.getPlayer(event.getPlayer()), 
+					TexturedSpout.instance.getConfiguration());
 			
 			Bukkit.getServer()
 			.getScheduler()
@@ -39,11 +39,11 @@ public boolean Dtod;
 
 		}
 
-		public void onPlayerTeleport(PlayerTeleportEvent event, SpoutPlayer splayer) {
+		public void onPlayerTeleport(PlayerTeleportEvent event) {
 			if (event.getFrom().getWorld() != event.getTo().getWorld()) {
 			doWorldBasedActions(event.getTo().getWorld(),
-			SpoutPlayer splayer = SpoutManager.getPlayer(event.getPlayer());
-			TexturedSpout.instance.getConfiguration();
+			SpoutManager.getPlayer(event.getPlayer()),
+			TexturedSpout.instance.getConfiguration());
 			}
 		}
 		public void onPlayerRespawn(PlayerRespawnEvent event) {
@@ -66,13 +66,14 @@ public boolean Dtod;
 			public void run() {
 				Player player = Bukkit.getServer().getPlayer(playerName);
 				if (player != null) {
-				listener.doPlayerBasedActions(
-				SpoutPlayer splayer = SpoutManager.getPlayer(null);
+				//listener.doPlayerBasedActions();
+				SpoutPlayer splayer = SpoutManager.getPlayer(player);
 				TexturedSpout.instance.getConfiguration();
 				
 			}
 			}
-			public void doWorldActions(World world, SpoutPlayer player,Configuration config) {
+		}
+			public void doWorldBasedActions(World world, SpoutPlayer player,Configuration config) {
 					String texturePackUrl = config.getString(
 					"texturepack" + world.getName(),
 					config.getString("texturepack.default"));
@@ -88,7 +89,6 @@ public boolean Dtod;
 					}
 			
 					}
-				}
 			}
 
 			}
