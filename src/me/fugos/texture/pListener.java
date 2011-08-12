@@ -30,10 +30,11 @@ plugin = instance;
 }
 	@Override
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
-//		if (event.getFrom().getWorld() != event.getTo().getWorld()) {
+		if (event.getFrom().getWorld() != event.getTo().getWorld()) {
 			doWorldBasedActions(event.getTo().getWorld(),
 					SpoutManager.getPlayer(event.getPlayer()));
 		}
+	}
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		doWorldBasedActions(event.getPlayer().getWorld(),
@@ -46,7 +47,7 @@ plugin = instance;
 }
 	@Override
 	public void onPlayerPortal(PlayerPortalEvent event) {
-	//	if (event.getFrom().getWorld() != event.getTo().getWorld());
+		if (event.getFrom().getWorld() != event.getTo().getWorld());
 			doWorldBasedActions(event.getTo().getWorld(),
 					SpoutManager.getPlayer(event.getPlayer()));
 	/*		Bukkit.getServer()
@@ -54,7 +55,7 @@ plugin = instance;
 	.scheduleSyncDelayedTask(TexturedSpout.instance,
 			new TSPlayerTask(event.getPlayer().getName(), this), 1);
 */
-}
+	}
 /*	private static class TSPlayerTask implements Runnable {
 		private final String playerName;
 		private final pListener listener;
@@ -74,9 +75,13 @@ plugin = instance;
 	public void doWorldBasedActions(World world, SpoutPlayer splayer) {
 		String worldName = splayer.getWorld().getName();
 		String worldPack = Config.getWorldPack(worldName);
-				if (worldPack != null && worldPack != "") {
-				try {
-				splayer.setTexturePack(worldPack);
+		String defaultPack = Config.getDefaultPack();
+				if (worldPack != null && worldPack != ""){
+					splayer.setTexturePack(worldPack);
+				}else {
+				if (defaultPack != null && worldPack != ""); {
+				try{
+					splayer.setTexturePack(defaultPack);
 				} catch (IllegalArgumentException ex) {
 				TexturedSpout.log
 				.severe("[TexturedSpout] Error with texture pack for world "
@@ -84,6 +89,7 @@ plugin = instance;
 				+ " : "
 				+ ex.getMessage());
 				}
-			}
-		}
+				}
+	}
+}
 }
