@@ -73,7 +73,7 @@ plugin = instance;
 				SpoutPlayer splayer = SpoutManager.getPlayer(player);
 */			
 	public void doWorldBasedActions(World world, SpoutPlayer splayer) {
-		String worldName = splayer.getWorld().getName();
+		String worldName = world.getName();
 		String worldPack = Config.getWorldPack(worldName);
 		String defaultPack = Config.getDefaultPack();
 				if (worldPack != null && worldPack != ""){
@@ -85,7 +85,7 @@ plugin = instance;
 				} catch (IllegalArgumentException ex) {
 				TexturedSpout.log
 				.severe("[TexturedSpout] Error with texture pack for world "
-				+ splayer.getWorld().getName()
+				+ world.getName()
 				+ " : "
 				+ ex.getMessage());
 				}
