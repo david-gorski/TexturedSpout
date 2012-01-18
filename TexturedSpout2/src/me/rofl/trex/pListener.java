@@ -7,59 +7,68 @@ import me.rofl.trex.TexturedSpout2;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class pListener extends PlayerListener {
-	
+	TexturedSpout2 plugin;
+	public pListener(TexturedSpout2 instance) {
+		plugin = instance;
+		}
 	protected final static Logger log = Logger
 			.getLogger("Minecraft.TexturedSpout");
 	Logger console = Logger.getLogger("Minecraft");
 
-	public static TexturedSpout2 plugin; public pListener(TexturedSpout2 instance) {
-		plugin = instance;
-		}
-	
-	public void onPlayerJoin(PlayerJoinEvent event, SpoutPlayer splayer) {
+	public void onPlayerJoin(PlayerJoinEvent event) {
 		console.info("[TexturedSpout2] getting player join info");
 		Player player = event.getPlayer();
 		String worldName = getPlayerWorldName(player);
 		String path = "Worlds." + worldName;
 		String worldPack = Config.getConfigString(path);
+		SpoutPlayer splayer = getSpoutPlayer(player);
 		setTexturePack(splayer, worldPack);
 	}
 		
-	public void onPlayerRespawn(PlayerRespawnEvent event, SpoutPlayer splayer) {
+	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		console.info("[TexturedSpout2] getting player respawn info");
 		Player player = event.getPlayer();
 		String worldName = getPlayerWorldName(player);
 		String path = "Worlds." + worldName;
 		String worldPack = Config.getConfigString(path);
+		SpoutPlayer splayer = getSpoutPlayer(player);
 		setTexturePack(splayer, worldPack);
 	}
 	
-	public void onPlayerTeleport(PlayerTeleportEvent event, SpoutPlayer splayer) {
+	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		console.info("[TexturedSpout2] getting player teleport info");
 		Player player = event.getPlayer();
 		String worldName = getPlayerWorldName(player);
 		String path = "Worlds." + worldName;
 		String worldPack = Config.getConfigString(path);
+		SpoutPlayer splayer = getSpoutPlayer(player);
 		setTexturePack(splayer, worldPack);
 	}
 	
-	public void onPlayerPortal(PlayerPortalEvent event, SpoutPlayer splayer) {
+	public void onPlayerPortal(PlayerPortalEvent event) {
 		console.info("[TexturedSpout2] getting player portal info");
 		Player player = event.getPlayer();
 		String worldName = getPlayerWorldName(player);
 		String path = "Worlds." + worldName;
 		String worldPack = Config.getConfigString(path);
+		SpoutPlayer splayer = getSpoutPlayer(player);
 		setTexturePack(splayer, worldPack);
 	}
 	
+	private SpoutPlayer getSpoutPlayer(Player player){
+		SpoutPlayer splayer = SpoutManager.getPlayer(player);
+		return splayer;
+	}
 	
 	private String getPlayerName(Player player){
 		String name = player.getName();
@@ -87,7 +96,8 @@ public class pListener extends PlayerListener {
 		splayer.setTexturePack(worldPack);
 		}
 	}
-	public void onSpoutCraftEnabled(World world, SpoutPlayer splayer) {
+	
+/*	public void onSpoutCraftEnabled(World world, SpoutPlayer splayer) {
 		console.info("[TexturedSpout2] getting spoutcraft enabled info");
 		String worldName = world.getName();
 		String path = "Worlds." + worldName;
@@ -95,6 +105,6 @@ public class pListener extends PlayerListener {
 		console.info("[TexturedSpout2] the path is" + path);
 		console.info("[TexturedSpout2] the pat is" + worldPack);
 		setTexturePack(splayer, worldPack);
-		
-	}
-	}
+		}
+*/	}
+

@@ -5,10 +5,14 @@ import java.util.List;
 import me.rofl.trex.TexturedSpout2;
 
 import org.bukkit.World;
+import org.bukkit.plugin.Plugin;
 
 
 public class Config {
+	static TexturedSpout2 plugin;
+	public static TexturedSpout2 instance;
     public Config(TexturedSpout2 instance) {
+    	plugin = instance;
     }
 
     public static void loadConfiguration(List<World> worlds){
@@ -29,17 +33,17 @@ public class Config {
 }
     
     public static String getConfigString(String path){
-    	String response = TexturedSpout2.plugin.getConfig().getString(path);
+    	String response = plugin.getConfig().getString(path);
 		return response;
     }
     
     public static int getConfigInt(String path){
-    	int response = TexturedSpout2.plugin.getConfig().getInt(path);
+    	int response = plugin.getConfig().getInt(path);
 		return response;
     }
     
     public static Boolean getConfigBoolean(String path){
-    	Boolean response = TexturedSpout2.plugin.getConfig().getBoolean(path);
+    	Boolean response = plugin.getConfig().getBoolean(path);
 		return response;
     }
     

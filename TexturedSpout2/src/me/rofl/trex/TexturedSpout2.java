@@ -7,6 +7,7 @@ import me.rofl.trex.TexturedSpout2;
 import me.rofl.trex.pListener;
 import me.rofl.trex.Config;
 
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.event.CustomEventListener;
 import org.bukkit.event.Event;
@@ -25,27 +26,17 @@ public class TexturedSpout2 extends JavaPlugin {
 	Logger console = Logger.getLogger("Minecraft");
 	
 	public void onEnable() {
-		plugin = this;
-		List<World> worlds = TexturedSpout2.plugin.getServer().getWorlds();
+		playerListener = new pListener(this);
+		
+		List<World> worlds = plugin.getServer().getWorlds();
 		Config.loadConfiguration(worlds);
 		
-	    playerListener = new pListener(this);
 		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvent(Event.Type.PLAYER_TELEPORT, playerListener, Event.Priority.Low, this);
-		pm.registerEvent(Event.Type.PLAYER_PORTAL, playerListener, Event.Priority.Low, this);
-		pm.registerEvent(Event.Type.PLAYER_RESPAWN, playerListener, Event.Priority.Low, this);
+		pm.registerEvent(Event.Type.PLAYER_TELEPORT, playerListener, Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_PORTAL, playerListener, Event.Priority.Normal, this);
+		pm.registerEvent(Event.Type.PLAYER_RESPAWN, playerListener, Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.CUSTOM_EVENT, new CustomEventListener() {
-			@Override
-			public void onCustomEvent(Event _event) {
-				if (_event instanceof SpoutCraftEnableEvent) {
-					SpoutCraftEnableEvent event = (SpoutCraftEnableEvent) _event;
-					playerListener.onSpoutCraftEnabled(event.getPlayer()
-							.getWorld(), event.getPlayer());
-				}
-			}
-	}, Event.Priority.Normal, this);
-		
+
 		console.info("[TexturedSpout2] has been enabled!");
 		
 	}
